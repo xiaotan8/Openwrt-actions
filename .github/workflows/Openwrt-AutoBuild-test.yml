@@ -24,11 +24,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      
-    # 设置服务器时区为东八区 
-    - name: Set time zone
-      run: sudo timedatectl set-timezone 'Asia/Shanghai'
-      
+       
     - name: Set Date
       run: |
          date=$(date +%Y-%m-%d)
@@ -39,6 +35,7 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo timedatectl set-timezone 'Asia/Shanghai'
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 curl gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
         sudo -E apt-get -qq autoremove --purge
@@ -162,7 +159,7 @@ jobs:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: openwrt/bin/${{matrix.target}}*_packages.tar
         asset_name: ${{matrix.target}}*_packages.tar
-        tag: ${{ env.DATE }}
+        tag: Openwrt-${{matrix.target}}-${{ env.DATE }}
         overwrite: true
         file_glob: true
 
@@ -173,7 +170,7 @@ jobs:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: openwrt/bin/${{matrix.target}}*_targets.tar
         asset_name: ${{matrix.target}}*_targets.tar
-        tag: ${{ env.DATE }}
+        tag: Openwrt-${{matrix.target}}-${{ env.DATE }}
         overwrite: true
         file_glob: true
 
@@ -209,7 +206,7 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
-        name: OpenWrt_firmware_${{matrix.target}}-$(date +"%Y%m%d%H%M")
+        name: OpenWrt_firmware_${{matrix.target}}
         path: ./Firmware/
                
 
