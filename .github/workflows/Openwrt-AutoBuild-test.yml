@@ -209,7 +209,7 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
-        name: OpenWrt_firmware_${{matrix.target}}-${{date +"%Y%m%d%H%M"}}
+        name: OpenWrt_firmware_${{matrix.target}}-$(date +"%Y%m%d%H%M")
         path: ./Firmware/
                
 
