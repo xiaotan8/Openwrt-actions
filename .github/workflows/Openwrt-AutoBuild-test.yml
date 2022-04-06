@@ -154,8 +154,8 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: openwrt/bin/${{matrix.target}}*_packages.tar
-        asset_name: Openwrt-${{matrix.target}}*_packages.tar
+        file: openwrt/bin/${{matrix.target}}_packages.tar
+        asset_name: Openwrt-${{matrix.target}}_packages.tar
         tag: Openwrt-x86-64-generic-${{ env.DATE }}
         overwrite: true
         file_glob: true
@@ -165,8 +165,8 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: openwrt/bin/${{matrix.target}}*_targets.tar
-        asset_name: Openwrt-${{matrix.target}}*_targets.tar
+        file: openwrt/bin/${{matrix.target}}_targets.tar
+        asset_name: Openwrt-${{matrix.target}}_targets.tar
         tag: Openwrt-x86-64-generic-${{ env.DATE }}
         overwrite: true
         file_glob: true
