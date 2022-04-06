@@ -10,3 +10,4 @@ git clone https://github.com/tty228/luci-app-serverchan.git                     
 git clone https://github.com/destan19/OpenAppFilter.git                         package/OpenAppFilter
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages         package/passwall-packages
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci             package/passwall
+rm -rf  package/passwall-packages/v2ray-core/patches/010-go-1.18.patch
