@@ -155,8 +155,8 @@ jobs:
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: openwrt/bin/${{matrix.target}}*_packages.tar
-        asset_name: ${{matrix.target}}*_packages.tar
-        tag: Openwrt-${{matrix.target}}-${{ env.DATE }}
+        asset_name: Openwrt-${{matrix.target}}*_packages.tar
+        tag: Openwrt-x86-64-generic-${{ env.DATE }}
         overwrite: true
         file_glob: true
 
@@ -166,8 +166,8 @@ jobs:
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: openwrt/bin/${{matrix.target}}*_targets.tar
-        asset_name: ${{matrix.target}}*_targets.tar
-        tag: Openwrt-${{matrix.target}}-${{ env.DATE }}
+        asset_name: Openwrt-${{matrix.target}}*_targets.tar
+        tag: Openwrt-x86-64-generic-${{ env.DATE }}
         overwrite: true
         file_glob: true
 
