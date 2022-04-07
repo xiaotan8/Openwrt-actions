@@ -153,7 +153,7 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: ./Firmware/*img*
+        file: ./Firmware/*.img.gz
         asset_name: OpenWrt-firmware-${{matrix.target}}-${{ env.DATE }}.zip
         tag: Openwrt-X86-X64-${{ env.DATE }}
         overwrite: true
