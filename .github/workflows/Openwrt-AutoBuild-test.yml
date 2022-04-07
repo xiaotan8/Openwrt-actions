@@ -154,7 +154,7 @@ jobs:
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: ./Firmware/*.img.gz
-        asset_name: OpenWrt-firmware-${{matrix.target}}-${{ env.DATE }}.zip
+        asset_name: OpenWrt-firmware-${{matrix.target}}-${{ env.DATE }}.img.gz
         tag: Openwrt-X86-X64-${{ env.DATE }}
         overwrite: true
         file_glob: true
