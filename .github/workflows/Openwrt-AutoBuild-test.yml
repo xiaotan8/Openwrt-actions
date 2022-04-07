@@ -22,7 +22,7 @@ jobs:
         target: [lienol-x64,lean-x64]
     
     steps:
-    - name: Checkout 
+    - name: Checkout
       uses: actions/checkout@v2
        
     - name: Set Date
