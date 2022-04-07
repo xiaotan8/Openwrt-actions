@@ -1,8 +1,9 @@
 #!/bin/bash
 
 echo "Test custom.sh"
+rm -rf  feeds/luci/themes/luci-theme-argon
 git clone  https://github.com/fw876/helloworld.git                              package/helloworld
-git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06            package/luci-theme-argon-jerrykuku
+git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06            feeds/luci/themes/luci-theme-argon
 rm -rf feeds/packages/libs/libcap
 svn co https://github.com/openwrt/openwrt/trunk/package/libs/libcap             feeds/packages/libs/libcap
 git clone https://github.com/pymumu/luci-app-smartdns.git -b lede               package/applications/luci-app-smartdns
