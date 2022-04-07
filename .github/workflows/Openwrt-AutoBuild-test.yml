@@ -131,14 +131,14 @@ jobs:
       if: steps.compile.outputs.status == 'success'
       run: |
         cd openwrt/bin/packages/
-        tar -cvf  ${{matrix.target}}_packages.tar ./
+        tar -cvf  Openwrt-${{matrix.target}}-packages.tar ./
         mv *.tar ..
         
     - name:  Pack targets_dir
       if: steps.compile.outputs.status == 'success'
       run: |
         cd openwrt/bin/targets/
-        tar -cvf  ${{matrix.target}}_targets.tar ./
+        tar -cvf  Openwrt-${{matrix.target}}-targets.tar ./
         mv *.tar ..
         
     - name: Assemble Firmware
@@ -148,25 +148,15 @@ jobs:
           #find openwrt/bin/targets/ -name "*bin*" | xargs -i mv -f {} ./Firmware/
           find openwrt/bin/targets/ -name "*img*" | xargs -i mv -f {} ./Firmware/
 
-    - name: Upload Firmware to release
-      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: ./Firmware/*.img.gz
-        asset_name: OpenWrt-firmware-${{matrix.target}}-${{ env.DATE }}.img.gz
-        tag: Openwrt-X86-X64-${{ env.DATE }}
-        overwrite: true
-        file_glob: true
   
     - name: Upload Packages to release
       if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: openwrt/bin/${{matrix.target}}_packages.tar
+        file: openwrt/bin/Openwrt-${{matrix.target}}-packages.tar
         asset_name: Openwrt-${{matrix.target}}-packages.tar
-        tag: Openwrt-X86-X64-${{ env.DATE }}
+        tag: Openwrt-X64-${{ env.DATE }}
         overwrite: true
         file_glob: true
 
@@ -175,9 +165,9 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: openwrt/bin/${{matrix.target}}_targets.tar
+        file: openwrt/bin/Openwrt-${{matrix.target}}-targets.tar
         asset_name: Openwrt-${{matrix.target}}-targets.tar
-        tag: Openwrt-X86-X64-${{ env.DATE }}
+        tag: Openwrt-X64-${{ env.DATE }}
         overwrite: true
         file_glob: true
 
