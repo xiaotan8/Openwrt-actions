@@ -242,6 +242,7 @@ CONFIG_PACKAGE_luci-proto-vpnc=y
 CONFIG_PACKAGE_luci-proto-wireguard=y
 
 CONFIG_PACKAGE_luci-theme-argon=y
+CONFIG_PACKAGE_luci-app-argon-config=y
 CONFIG_PACKAGE_luci-theme-argon-dark-mod=n
 CONFIG_PACKAGE_luci-theme-argon-light-mod=n
 CONFIG_PACKAGE_luci-theme-atmaterial=n
