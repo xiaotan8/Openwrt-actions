@@ -155,7 +155,7 @@ jobs:
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: openwrt/bin/Openwrt-${{matrix.target}}-packages.tar
-        asset_name: Openwrt-${{matrix.target}}-packages.tar
+        asset_name: Openwrt-${{matrix.target}}-packages-${{ env.DATE }}.tar
         tag: Openwrt-X64-${{ env.DATE }}
         overwrite: true
         file_glob: true
@@ -166,7 +166,7 @@ jobs:
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
         file: openwrt/bin/Openwrt-${{matrix.target}}-targets.tar
-        asset_name: Openwrt-${{matrix.target}}-targets.tar
+        asset_name: Openwrt-${{matrix.target}}-targets-${{ env.DATE }}.tar
         tag: Openwrt-X64-${{ env.DATE }}
         overwrite: true
         file_glob: true
@@ -188,14 +188,14 @@ jobs:
       if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()　&& steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
-        name: OpenWrt-packages-${{matrix.target}}
+        name: OpenWrt-packages-${{matrix.target}}${{ env.DATE }}
         path: openwrt/bin/packages
         
     - name: Upload targets directory
       if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
-        name: OpenWrt-targets-${{matrix.target}}
+        name: OpenWrt-targets-${{matrix.target}}${{ env.DATE }}
         path: openwrt/bin/targets
         
     - name: Upload Firmware
