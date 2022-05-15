@@ -13,3 +13,4 @@ svn co https://github.com/Lienol/openwrt-package/branches/other/luci-app-adguard
 git clone https://github.com/destan19/OpenAppFilter.git                         package/OpenAppFilter
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages         package/passwall-packages
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci             package/passwall
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
