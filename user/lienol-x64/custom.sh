@@ -4,7 +4,7 @@ echo "Test custom.sh"
 rm -rf feeds/luci/themes/luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon.git       feeds/luci/themes/luci-theme-argon
 git clone https://github.com/jerrykuku/luci-app-argon-config.git  feeds/luci/themes/luci-app-argon-config
-git clone https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git   feeds/luci/themes/infinityfreedom
+svn co https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom/trunk/luci-theme-infinityfreedom   feeds/luci/themes/luci-theme-infinityfreedom
 git clone https://github.com/jerrykuku/luci-app-jd-dailybonus.git package/luci-app-jd-dailybonus
 git clone https://github.com/tty228/luci-app-serverchan.git       package/luci-app-serverchan
 git clone https://github.com/destan19/OpenAppFilter.git           package/diy/OpenAppFilter
