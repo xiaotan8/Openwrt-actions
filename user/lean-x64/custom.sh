@@ -16,3 +16,4 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci             
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 rm -rf feeds/packages/net/mosdns
 git clone https://github.com/QiuSimons/openwrt-mos.git                          package/openwrt-mos
+git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
