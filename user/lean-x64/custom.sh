@@ -14,4 +14,5 @@ git clone https://github.com/destan19/OpenAppFilter.git                         
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages         package/passwall-packages
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci             package/passwall
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
-svn co https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns           package/luci-app-mosdns
+rm -rf feeds/packages/net/mosdns
+git clone https://github.com/QiuSimons/openwrt-mos.git                          package/openwrt-mos
