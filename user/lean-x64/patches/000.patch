@@ -1,5 +1,5 @@
 --- feeds.conf.default	2022-07-08 20:43:16.467145100 +0800
-+++ 1feeds.conf.default	2022-07-08 20:42:34.086000400 +0800
++++ feeds.conf.default	2022-07-08 20:42:34.086000400 +0800
 @@ -6,3 +6,4 @@
  #src-git targets https://github.com/openwrt/targets.git
  #src-git oldpackages http://git.openwrt.org/packages.git
