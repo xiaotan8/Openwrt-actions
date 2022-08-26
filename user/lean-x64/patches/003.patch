@@ -1,0 +1,11 @@
+--- ./target/linux/x86/Makefile	2022-08-25 19:30:54.344032700 +0800
++++ ./target/linux/x86/Makefile	2022-08-25 19:33:04.770022600 +0800
+@@ -10,7 +10,7 @@
+ FEATURES:=squashfs vdi vmdk vhdx pcmcia fpu boot-part rootfs-part
+ SUBTARGETS:=64 generic legacy geode 
+ 
+-KERNEL_PATCHVER:=5.15
++KERNEL_PATCHVER:=5.19
+ KERNEL_TESTING_PATCHVER:=5.19
+ 
+ KERNELNAME:=bzImage
