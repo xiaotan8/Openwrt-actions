@@ -10,6 +10,6 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages      pac
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci     package/diy/passwall
 # git clone  https://github.com/fw876/helloworld.git                package/helloworld
 rm -rf package/network/fullconenat
-svn co https://github.com/coolsnowwolf/lede/trunk/package/network/services/fullconenat  /package/network
+svn co https://github.com/coolsnowwolf/lede/trunk/package/network/services/fullconenat  /package/network/fullconenat
 rm -rf ./target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
 wget -P ./target/linux/generic/hack-5.10/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
