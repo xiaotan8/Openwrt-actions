@@ -9,3 +9,5 @@ git clone https://github.com/destan19/OpenAppFilter.git           package/diy/Op
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages      package/diy/passwall-packages
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci     package/diy/passwall
 # git clone  https://github.com/fw876/helloworld.git                package/helloworld
+rm -rf /target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
+svn co https://github.com/xiaotan8/Openwrt-actions/trunk/user/lienol-x64/952-net-conntrack-events-support-multiple-registrant.patch   target/linux/generic/hack-5.10/
