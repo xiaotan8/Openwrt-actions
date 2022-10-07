@@ -1,4 +1,4 @@
-name: Openwrt-AutoBuild
+name: Openwrt-Build
 
 on:
 #  release:
@@ -13,8 +13,8 @@ on:
   watch:
     types: [started]
 
-###env:
-###  RUN_VALIDATION: true
+env:
+  RUN_VALIDATION: true
 
 jobs:
   build:
