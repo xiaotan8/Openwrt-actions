@@ -1,8 +1,8 @@
-name: Openwrt-Build
+name: Openwrt-AutoBuild
 
 on:
-#  release:
-#    types: [published]
+  release:
+    types: [published]
   push:
     branches:
       - master
