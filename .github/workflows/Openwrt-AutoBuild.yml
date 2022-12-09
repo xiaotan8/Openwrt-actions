@@ -1,18 +1,22 @@
 name: Openwrt-AutoBuild
 
-on:
-# release:
-#   types: [published]
-  push:
-     branches:
-       - master
-     paths:
-       - 'start'
-  schedule:
-     - cron: 0 17 * * *
-  watch:
-     types: [started]
 
+on:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: '编译OpenWrt固件-SSH远程：改为“ssh”打开SSH连接'
+        required: false
+        default: 'ssh-actions'
+
+
+# 定时触发编译(1,2,5,6,8,10,12,15,16,18,20,22,25,26,28,30早3点)
+  schedule:
+    - cron: 00 20 * * 0
+
+# 点赞☆Star触发编译
+#  watch:
+#    types: [started]
 
 env:
   RUN_VALIDATION: true
