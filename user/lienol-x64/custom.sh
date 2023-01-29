@@ -10,3 +10,4 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages      pac
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci     package/diy/passwall
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 # git clone  https://github.com/fw876/helloworld.git                package/helloworld
+rm -f /package/network/services/dnsmasq/patches/910-mini-ttl.patch
