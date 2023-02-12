@@ -16,3 +16,4 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages         
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci             package/passwall
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
+git clone https://github.com/brvphoenix/wrtbwmon.git                            package/wrtbwmon
