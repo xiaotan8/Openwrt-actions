@@ -10,4 +10,4 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages      pac
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci     package/diy/passwall
 # svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 # git clone  https://github.com/fw876/helloworld.git                package/helloworld
-svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-samba   feeds/luci/applications/luci-app-samba
+# svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-samba   feeds/luci/applications/luci-app-samba
