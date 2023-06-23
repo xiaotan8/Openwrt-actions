@@ -17,4 +17,4 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-new
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
 rm -rf build_dir/target-x86_64_musl/open-vm-tools-11.3.0-18090558
-git clone https://github.com/vmware/open-vm-tools.git                           package/open-vm-tools
+git clone https://github.com/vmware/open-vm-tools.git                           build_dir/target-x86_64_musl/open-vm-tools
