@@ -16,5 +16,5 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages         
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-new-version             package/passwall
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
-rm -rf feeds/packages/utils/open-vm-tools
-svn co https://github.com/xiaotan8/packages/trunk/utils/open-vm-tools           feeds/packages/utils/open-vm-tools
+# rm -rf feeds/packages/utils/open-vm-tools
+# svn co https://github.com/xiaotan8/packages/trunk/utils/open-vm-tools           feeds/packages/utils/open-vm-tools
