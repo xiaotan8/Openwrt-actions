@@ -30,7 +30,9 @@ jobs:
         sudo timedatectl set-timezone 'Asia/Shanghai'
         date=$(date +%Y%m%d)
         echo "DATE=$date" >> $GITHUB_ENV
-                 
+    - name: Check space usage
+      if: (!cancelled())
+      run: df -hT                 
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
