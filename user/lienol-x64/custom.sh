@@ -12,3 +12,4 @@ svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          
 # git clone  https://github.com/fw876/helloworld.git                package/helloworld
 # svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-samba   feeds/luci/applications/luci-app-samba
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
+svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/x86/patches-5.15  target/linux/x86/patches-5.15
