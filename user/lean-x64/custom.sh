@@ -13,7 +13,7 @@ git clone https://github.com/tty228/luci-app-serverchan.git                     
 svn co https://github.com/Lienol/openwrt-package/branches/other/luci-app-adguardhome            package/applications/luci-app-adguardhome
 git clone https://github.com/destan19/OpenAppFilter.git                         package/OpenAppFilter
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages         package/passwall-packages
-git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-new-version             package/passwall
+git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-dev       package/passwall
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash          package/luci-app-openclash
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
 # rm -rf feeds/packages/utils/open-vm-tools
