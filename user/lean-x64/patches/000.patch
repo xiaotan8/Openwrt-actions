@@ -1,15 +1,12 @@
 --- feeds.conf.default	2023-09-16 02:12:07.770952800 +0800
 +++ feeds.conf.default	2023-09-16 02:11:52.576128700 +0800
-@@ -7,4 +7,9 @@
- #src-git video https://github.com/openwrt/video.git
+@@ -8,3 +8,8 @@
  #src-git targets https://github.com/openwrt/targets.git
  #src-git oldpackages http://git.openwrt.org/packages.git
--#src-link custom /usr/src/openwrt/custom-feed
-\ No newline at end of file
-+#src-link custom /usr/src/openwrt/custom-feed
-+src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
-+src-git openwrt-passwall-packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
-+src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
-+src-git openclash https://github.com/vernesong/OpenClash.git;master
-+src-git helloworld https://github.com/fw876/helloworld.git;master
+ #src-link custom /usr/src/openwrt/custom-feed
+++src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
+++src-git openwrt-passwall-packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
+++src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
+++src-git openclash https://github.com/vernesong/OpenClash.git;master
+++src-git helloworld https://github.com/fw876/helloworld.git;master
 \ No newline at end of file
