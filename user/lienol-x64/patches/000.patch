@@ -1,5 +1,5 @@
 --- feeds.conf.default	2023-09-16 02:16:03.636955400 +0800
-+++ 1feeds.conf.default	2023-09-16 02:16:27.860221300 +0800
++++ feeds.conf.default	2023-09-16 02:16:27.860221300 +0800
 @@ -7,4 +7,9 @@
  #src-git oldpackages http://git.openwrt.org/packages.git
  #src-link custom /usr/src/openwrt/custom-feed
