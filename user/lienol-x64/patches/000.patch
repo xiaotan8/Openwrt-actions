@@ -1,9 +1,12 @@
 --- feeds.conf.default	2022-10-30 19:54:40.830206100 +0800
 +++ feeds.conf.default	2022-10-30 19:58:55.200691700 +0800
-@@ -8,3 +8,6 @@
+@@ -8,3 +8,8 @@
  #src-link custom /usr/src/openwrt/custom-feed
  src-git lienol https://github.com/Lienol/openwrt-package.git;main
  src-git other https://github.com/Lienol/openwrt-package.git;other
 +src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
 +src-git openwrt-passwall-packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
 +src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
++src-git openclash https://github.com/vernesong/OpenClash.git;master
++src-git helloworld https://github.com/fw876/helloworld.git;master
+\ No newline at end of file
