@@ -4,9 +4,9 @@
  #src-git targets https://github.com/openwrt/targets.git
  #src-git oldpackages http://git.openwrt.org/packages.git
  #src-link custom /usr/src/openwrt/custom-feed
-++src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
-++src-git openwrt-passwall-packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
-++src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
-++src-git openclash https://github.com/vernesong/OpenClash.git;master
-++src-git helloworld https://github.com/fw876/helloworld.git;master
++src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
++src-git openwrt-passwall-packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
++src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
++src-git openclash https://github.com/vernesong/OpenClash.git;master
++src-git helloworld https://github.com/fw876/helloworld.git;master
 \ No newline at end of file
