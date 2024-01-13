@@ -14,4 +14,4 @@ git clone https://github.com/destan19/OpenAppFilter.git           package/diy/Op
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
 # svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/x86/patches-5.15  target/linux/x86/patches-5.15
 rm -rf package/feeds/packages/openconnect/*.*
-svn co https://github.com/coolsnowwolf/packages/trunk/master/net/openconnect   package/feeds/packages/openconnect
+svn co https://github.com/coolsnowwolf/packages/trunk/net/openconnect   package/feeds/packages/openconnect
