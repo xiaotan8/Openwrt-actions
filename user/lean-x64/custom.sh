@@ -10,7 +10,7 @@ git clone https://github.com/pymumu/openwrt-smartdns.git                        
 #svn co https://github.com/openwrt/openwrt/trunk/package/libs/libcap             feeds/packages/libs/libcap
 git clone https://github.com/pymumu/luci-app-smartdns.git -b lede               package/applications/luci-app-smartdns
 git clone https://github.com/tty228/luci-app-serverchan.git                     package/applications/luci-app-serverchan
-#svn co https://github.com/Lienol/openwrt-package/branches/other/luci-app-adguardhome            package/applications/luci-app-adguardhome
+git clone https://github.com/rufengsuixing/luci-app-adguardhome.git            package/applications/luci-app-adguardhome
 git clone https://github.com/destan19/OpenAppFilter.git                         package/OpenAppFilter
 # git clone https://github.com/xiaorouji/openwrt-passwall-packages.git      package/passwall-packages
 # git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-dev       package/passwall
