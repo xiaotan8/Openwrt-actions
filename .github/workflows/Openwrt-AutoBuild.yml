@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [lienol-x64,lean-x64]
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -41,21 +41,35 @@ jobs:
         sudo timedatectl set-timezone 'Asia/Shanghai'
         date=$(date +%Y%m%d)
         echo "DATE=$date" >> $GITHUB_ENV
-    - name: Free Disk Space (Ubuntu)
-      uses: jlumbroso/free-disk-space@main
-      with:
-        # this might remove tools that are actually needed,
+        
+    - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+    - name: Checkout
+        uses: actions/checkout@v3
+
+    - name: Build
+        run: |
+          echo "Free space:"
+          df -h        
+    # - name: Free Disk Space (Ubuntu)
+    #   uses: jlumbroso/free-disk-space@main
+    #   with:
+         # this might remove tools that are actually needed,
         # if set to "true" but frees about 6 GB
-        tool-cache: false
+   #      tool-cache: false
 
         # all of these default to true, but feel free to set to
         # "false" if necessary for your workflow
-        android: true
-        dotnet: true
-        haskell: true
-        large-packages: true
-        docker-images: true
-        swap-storage: true         
+    #     android: true
+    #     dotnet: true
+   #      haskell: true
+     #    large-packages: true
+    #     docker-images: true
+    #     swap-storage: true         
  #   - name: Delete Files
  #     run: |
  #       docker rmi `docker images -q`
