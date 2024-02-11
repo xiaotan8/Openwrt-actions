@@ -43,7 +43,7 @@ jobs:
         echo "DATE=$date" >> $GITHUB_ENV
         
     - name: Maximize build space
-        uses: easimon/maximize-build-space@master
+      uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 512
           swap-size-mb: 1024
