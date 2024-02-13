@@ -245,9 +245,9 @@ jobs:
       with:
         token: ${{ secrets.SUPER_TOKEN }}    # 令牌
         repository: ${{ github.repository }}    # 运行工作流的存储库的名称。
-        retain_days: 1                          # 工作流的保留天数进行比较的天数       
+        retain_days: 7                         # 工作流的保留天数进行比较的天数       
         keep_minimum_runs: 0                    # 工作流程保留的最少运行次数              
 
     - name: WeChat notification
       if: env.WECHAT_NOTIFICATION == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
-      run: curl https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}固件已编译完成
+      run: curl https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}-${{ env.DATE }}固件已编译完成
