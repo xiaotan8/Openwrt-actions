@@ -77,7 +77,8 @@ jobs:
         echo "UPLOAD_TO_REALEASE=${UPLOAD_TO_REALEASE}" >> $GITHUB_ENV
         echo "UPLOAD_TO_COWTRANSFER=${UPLOAD_TO_COWTRANSFER}" >> $GITHUB_ENV
         echo "WECHAT_NOTIFICATION=${WECHAT_NOTIFICATION}" >> $GITHUB_ENV
-        
+        echo "env.DELETE_RELEASE=${env.DELETE_RELEASE}" >> $GITHUB_ENV
+        echo "DELETE_ARTIFACTS=${DELETE_ARTIFACTS}" >> $GITHUB_ENV
         
     - name: Clone source code
       run: |
@@ -230,6 +231,7 @@ jobs:
         path: ./Firmware/
     - name: 删除旧版本
       uses: dev-drprasad/delete-older-releases@master
+      if: env.DELETE_RELEASE == 'true'
       with:
         keep_latest: 7                               # 要保留的最新版本数 0删除所有版本
         delete_tag_pattern: ${{ env.FILE_NAME }}     # 指定标签
@@ -239,6 +241,7 @@ jobs:
 
     - name: 删除旧的工作流程运行和工件
       uses: Mattraks/delete-workflow-runs@main
+      if: env.DELETE_ARTIFACTS == 'true'
       with:
         token: ${{ secrets.SUPER_TOKEN }}    # 令牌
         repository: ${{ github.repository }}    # 运行工作流的存储库的名称。
