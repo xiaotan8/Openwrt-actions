@@ -18,3 +18,6 @@ git clone https://github.com/destan19/OpenAppFilter.git                         
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
 # rm -rf feeds/packages/utils/open-vm-tools
 # svn co https://github.com/xiaotan8/packages/trunk/utils/open-vm-tools           feeds/packages/utils/open-vm-tools
+# 解决 luci-app-passwall 1+2 状态页延时检测为 0.00 ms 的问题【sbwml大佬提供】
+rm -rf feeds/packages/net/curl
+git clone https://github.com/sbwml/feeds_packages_net_curl feeds/packages/net/curl
