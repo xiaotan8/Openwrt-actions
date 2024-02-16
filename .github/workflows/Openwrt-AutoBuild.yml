@@ -76,7 +76,18 @@ jobs:
       run: |
           echo "Free space:"
           df -h        
-          
+
+    - name: 密匙检测（密匙为空则退出）
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        if [[ -z "${{ secrets.SUPER_TOKEN }}" ]]; then
+          echo "您没有设置仓库密匙，请按教程设置好密匙再来"
+          echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
+          exit 1
+        fi
+    
+    - name: 准备结束
+      uses: actions/checkout@v3        
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
