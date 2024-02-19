@@ -9,5 +9,5 @@ git clone https://github.com/rufengsuixing/luci-app-adguardhome.git            p
 git clone https://github.com/destan19/OpenAppFilter.git                         package/OpenAppFilter
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                    package/luci-app-tcpdump
 # 解决 luci-app-passwall 1+2 状态页延时检测为 0.00 ms 的问题【sbwml大佬提供】
-rm -rf feeds/packages/net/curl
-git clone https://github.com/sbwml/feeds_packages_net_curl feeds/packages/net/curl
+# rm -rf feeds/packages/net/curl
+# git clone https://github.com/sbwml/feeds_packages_net_curl feeds/packages/net/curl
