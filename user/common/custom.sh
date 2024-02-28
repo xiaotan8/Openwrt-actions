@@ -2,3 +2,5 @@
 
 echo "Apply custom.sh"
 #git clone https://github.com/vernesong/OpenClash.git -b master                                           package/luci-app-openclash
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
