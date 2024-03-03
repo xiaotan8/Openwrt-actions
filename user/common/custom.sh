@@ -1,4 +1,5 @@
 #!/bin/bash
 
 echo "Apply custom.sh"
-#git clone https://github.com/vernesong/OpenClash.git -b master                                           package/luci-app-openclash
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box}
+git clone https://github.com/sbwml/openwrt_helloworld package/helloworld
