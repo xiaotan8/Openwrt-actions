@@ -5,7 +5,7 @@
  src-git lienol https://github.com/Lienol/openwrt-package.git;main
  src-git other https://github.com/Lienol/openwrt-package.git;other
 +src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
-+src-git passwallpackages https://github.com/xiaotan8/openwrt-passwall-packages.git;main
++src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
 +src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
 +src-git openclash https://github.com/vernesong/OpenClash.git;master
 +src-git helloworld https://github.com/fw876/helloworld.git;master
