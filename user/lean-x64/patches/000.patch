@@ -4,7 +4,7 @@
  #src-git targets https://github.com/openwrt/targets.git
  #src-git oldpackages http://git.openwrt.org/packages.git
  #src-link custom /usr/src/openwrt/custom-feed
-+src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
++src-git infinityfreedomng https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
 +src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
 +src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
 +src-git openclash https://github.com/vernesong/OpenClash.git;master
