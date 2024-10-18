@@ -43,7 +43,7 @@ jobs:
         date=$(date +%Y%m%d)
         echo "DATE=$date" >> $GITHUB_ENV
 
-    - name: "Optimize Disk Space"
+   # - name: "Optimize Disk Space"
       uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.0"
       with:
         operate_sudo: "True"
