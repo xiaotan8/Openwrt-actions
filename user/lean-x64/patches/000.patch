@@ -16,7 +16,7 @@
  #src-git oldpackages http://git.openwrt.org/packages.git
  #src-link custom /usr/src/openwrt/custom-feed
 +src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git;classic
-+src-git openwrt-passwall-packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
-+src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
++src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
++src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-dev
 +src-git openclash https://github.com/vernesong/OpenClash.git;master
 \ No newline at end of file
