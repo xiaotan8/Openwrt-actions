@@ -1,5 +1,5 @@
 --- feeds.conf.default	2024-10-19 13:16:55.262516600 +0800
-+++ 1feeds.conf.default	2024-10-19 13:19:37.538224900 +0800
++++ feeds.conf.default	2024-10-19 13:19:37.538224900 +0800
 @@ -1,11 +1,15 @@
  src-git packages https://github.com/coolsnowwolf/packages
 -#src-git luci https://github.com/coolsnowwolf/luci
