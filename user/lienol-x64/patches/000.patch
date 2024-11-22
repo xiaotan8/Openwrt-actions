@@ -4,7 +4,7 @@
  #src-link custom /usr/src/openwrt/custom-feed
  src-git lienol https://github.com/Lienol/openwrt-package.git;main
  src-git other https://github.com/Lienol/openwrt-package.git;other
-+src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
++src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git;classic
 +src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
 +src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main
 +src-git openclash https://github.com/vernesong/OpenClash.git;master
