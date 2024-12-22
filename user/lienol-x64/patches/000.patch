@@ -1,9 +1,9 @@
 --- feeds.conf.default	2023-09-16 02:16:03.636955400 +0800
 +++ feeds.conf.default	2023-09-16 02:16:27.860221300 +0800
 @@ -8,3 +8,8 @@
+ #src-git targets https://github.com/openwrt/targets.git
+ #src-git oldpackages http://git.openwrt.org/packages.git
  #src-link custom /usr/src/openwrt/custom-feed
- src-git lienol https://github.com/Lienol/openwrt-package.git;main
- src-git other https://github.com/Lienol/openwrt-package.git;other
 +src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git;classic
 +src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
 +src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main
