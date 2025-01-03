@@ -23,7 +23,7 @@ env:
 
 jobs:
   build:
-    runs-on:  ubuntu-22.04
+    runs-on:  ubuntu-latest
 #    if: github.event.repository.owner.id == github.event.sender.id
     if: github.repository_owner=='xiaotan8'
     name: Build ${{matrix.target}}
