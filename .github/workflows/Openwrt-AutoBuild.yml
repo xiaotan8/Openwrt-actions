@@ -23,7 +23,7 @@ env:
 
 jobs:
   build:
-    runs-on:  ubuntu-22.04
+    runs-on:  [runs-on,runner=32cpu-linux-x64,image=ubuntu22-full-x64]
 #    if: github.event.repository.owner.id == github.event.sender.id
     if: github.repository_owner=='xiaotan8'
     name: Build ${{matrix.target}}
