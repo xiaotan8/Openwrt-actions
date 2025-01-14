@@ -43,7 +43,7 @@ jobs:
       with:
           ccache: 'true'
           mixkey: 'ramips'
-          prefix: '/home/runner/work/Openwrt-actions/Openwrt-actions/openwrt'
+          prefix: 'openwrt'
     - name: Set Date
       run: |
         sudo timedatectl set-timezone 'Asia/Shanghai'
