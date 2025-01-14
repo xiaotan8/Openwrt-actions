@@ -42,7 +42,7 @@ jobs:
       uses: klever1988/cachewrtbuild@main
       with:
           ccache: 'true'
-          mixkey: 'ramips'
+          ##mixkey: 'ramips'
           prefix: 'openwrt'
     - name: Set Date
       run: |
