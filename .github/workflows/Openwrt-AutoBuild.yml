@@ -36,7 +36,14 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
-      
+      with:
+          fetch-depth: 0
+    - name: cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+          ccache: 'true'
+          mixkey: 'ramips'
+          prefix: 'openwrt'
     - name: Set Date
       run: |
         sudo timedatectl set-timezone 'Asia/Shanghai'
@@ -53,14 +60,7 @@ jobs:
           remove-dotnet: 'true'
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-          fetch-depth: 0
-    - name: cache
-      uses: klever1988/cachewrtbuild@main
-      with:
-          ccache: 'true'
-          mixkey: 'ramips'
-          prefix: 'openwrt'
+
     - name: Build
       run: |
           echo "Free space:"
