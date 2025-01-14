@@ -107,7 +107,14 @@ jobs:
       
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-
+      
+    - name: cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+          ccache: 'true'
+          mixkey: 'ramips'
+          prefix: ${{ github.workspace }}/openwrt    
+          
     - name: Load custom configuration
       run: |        
          echo "Apply files..."
@@ -133,12 +140,7 @@ jobs:
          fi
            with:
 
-    - name: cache
-      uses: klever1988/cachewrtbuild@main
-      with:
-          ccache: 'true'
-          mixkey: 'ramips'
-          prefix: ${{ github.workspace }}/openwrt    
+
     - name: Download package
       id: package
       run: |
