@@ -38,12 +38,7 @@ jobs:
       uses: actions/checkout@v4
       with:
           fetch-depth: 0
-    - name: cache
-      uses: klever1988/cachewrtbuild@main
-      with:
-          ccache: 'true'
-          ##mixkey: 'ramips'
-          prefix: 'openwrt'
+          
     - name: Set Date
       run: |
         sudo timedatectl set-timezone 'Asia/Shanghai'
@@ -137,7 +132,14 @@ jobs:
            /bin/bash ../user/${{matrix.target}}/custom.sh ${{matrix.target}}
          )
          fi
-         
+           with:
+
+    - name: cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+          ccache: 'true'
+          mixkey: 'ramips'
+          prefix: 'openwrt'    
     - name: Download package
       id: package
       run: |
