@@ -43,7 +43,7 @@ jobs:
       with:
           ccache: 'true'
           mixkey: 'ramips'
-          prefix: 'openwrt'
+          prefix: ${{ github.workspace }}/openwrt
     - name: Set Date
       run: |
         sudo timedatectl set-timezone 'Asia/Shanghai'
