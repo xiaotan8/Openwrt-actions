@@ -130,7 +130,14 @@ jobs:
            /bin/bash ../user/${{matrix.target}}/custom.sh ${{matrix.target}}
          )
          fi
-         
+
+    - name: cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+          ccache: 'true'
+          mixkey: 'ramips'
+          prefix: ${{ github.workspace }}/openwrt
+          
     - name: Download package
       id: package
       run: |
