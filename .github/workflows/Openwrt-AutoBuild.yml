@@ -1,6 +1,5 @@
 name: Openwrt-AutoBuild
 
-
 on:
   workflow_dispatch:
     inputs:
@@ -9,62 +8,44 @@ on:
         required: false
         default: 'ssh-actions'
 
-
-# 定时触发编译(1,2,5,6,8,10,12,15,16,18,20,22,25,26,28,30早3点)
+  # 定时触发编译(1,2,5,6,8,10,12,15,16,18,20,22,25,26,28,30早3点)
   schedule:
     - cron: 0 17 * * *
 
-# 点赞☆Star触发编译
-#  watch:
-#    types: [started]
-
 env:
   RUN_VALIDATION: true
+  TZ: Asia/Shanghai  # 统一设置时区变量
 
 jobs:
   build:
     runs-on: ubuntu-22.04
-#    if: github.event.repository.owner.id == github.event.sender.id
-    if: github.repository_owner=='xiaotan8'
+    if: github.repository_owner == 'xiaotan8'
     name: Build ${{matrix.target}}
     strategy:
       fail-fast: false
       matrix:
-        target: [lienol-x64,lean-x64]
+        target: [lienol-x64, lean-x64]
 
     steps:
-
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: Set Date
       run: |
-        sudo timedatectl set-timezone 'Asia/Shanghai'
         date=$(date +%Y%m%d)
         echo "DATE=$date" >> $GITHUB_ENV
 
-
-        
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
       with:
           root-reserve-mb: 2048
           swap-size-mb: 100
           remove-dotnet: 'true'
-    - name: Checkout
-      uses: actions/checkout@v4
 
-    - name: Build
-      run: |
-          echo "Free space:"
-          df -h        
-
-   
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi `docker images -q`
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap*
@@ -72,68 +53,66 @@ jobs:
         sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler flex gawk gcc-multilib g++-multilib gettext genisoimage git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool llvm lrzsz msmtp ninja-build p7zip p7zip-full patch pkgconf python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
-        sudo -E timedatectl set-timezone "Asia/Shanghai"
+
     - name: Load Settings.ini
-      run: |    
-        source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
-        echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
-        echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
-        echo "UPLOAD_PACKAGES_DIR=${UPLOAD_PACKAGES_DIR}" >> $GITHUB_ENV
-        echo "UPLOAD_TARGETS_DIR=${UPLOAD_TARGETS_DIR}" >> $GITHUB_ENV
-        echo "UPLOAD_FIRMWARE=${UPLOAD_FIRMWARE}" >> $GITHUB_ENV
-        echo "UPLOAD_TO_ARTIFACTS=${UPLOAD_TO_ARTIFACTS}" >> $GITHUB_ENV
-        echo "UPLOAD_TO_REALEASE=${UPLOAD_TO_REALEASE}" >> $GITHUB_ENV
-        echo "UPLOAD_TO_COWTRANSFER=${UPLOAD_TO_COWTRANSFER}" >> $GITHUB_ENV
-        echo "WECHAT_NOTIFICATION=${WECHAT_NOTIFICATION}" >> $GITHUB_ENV
-        echo "DELETE_RELEASE=${DELETE_RELEASE}" >> $GITHUB_ENV
-        echo "DELETE_ARTIFACTS=${DELETE_ARTIFACTS}" >> $GITHUB_ENV
-        
+      run: |
+        if [ -f "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini" ]; then
+          source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
+          echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
+          echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
+          echo "UPLOAD_PACKAGES_DIR=${UPLOAD_PACKAGES_DIR}" >> $GITHUB_ENV
+          echo "UPLOAD_TARGETS_DIR=${UPLOAD_TARGETS_DIR}" >> $GITHUB_ENV
+          echo "UPLOAD_FIRMWARE=${UPLOAD_FIRMWARE}" >> $GITHUB_ENV
+          echo "UPLOAD_TO_ARTIFACTS=${UPLOAD_TO_ARTIFACTS}" >> $GITHUB_ENV
+          echo "UPLOAD_TO_REALEASE=${UPLOAD_TO_REALEASE}" >> $GITHUB_ENV
+          echo "UPLOAD_TO_COWTRANSFER=${UPLOAD_TO_COWTRANSFER}" >> $GITHUB_ENV
+          echo "WECHAT_NOTIFICATION=${WECHAT_NOTIFICATION}" >> $GITHUB_ENV
+          echo "DELETE_RELEASE=${DELETE_RELEASE}" >> $GITHUB_ENV
+          echo "DELETE_ARTIFACTS=${DELETE_ARTIFACTS}" >> $GITHUB_ENV
+        else
+          echo "Error: settings.ini not found for target ${{matrix.target}}"
+          exit 1
+        fi
+
     - name: Clone source code
       run: |
         git clone ${{ env.REPO_URL }} -b ${{ env.REPO_BRANCH }} openwrt
-        
+
     - name: Apply Patches
       run: | 
-        echo "Apply patches"
-        if [ -n "$(ls -A "user/common/patches" 2>/dev/null)" ]; then
-        (
-          find "user/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
-        )
-        fi
-        if [ -n "$(ls -A "user/${{matrix.target}}/patches" 2>/dev/null)" ]; then
-        (
-          find "user/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
-        )
-        fi         
+        echo "Applying patches..."
+        apply_patches() {
+          local patch_dir="$1"
+          if [ -d "$patch_dir" ] && [ -n "$(ls -A "$patch_dir" 2>/dev/null)" ]; then
+            find "$patch_dir" -type f -name '*.patch' -print0 | sort -z | while IFS= read -r -d '' patch; do
+              echo "Applying patch: $patch"
+              patch -d openwrt -p0 --forward < "$patch" || { echo "Patch failed: $patch"; exit 1; }
+            done
+          fi
+        }
+        
+        apply_patches "user/common/patches"
+        apply_patches "user/${{matrix.target}}/patches"
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
-      
+
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: Load custom configuration
       run: |        
-         echo "Apply files..."
-         if [ -n "$(ls -A "user/common/files" 2>/dev/null)" ]; then
-         cp -r -f user/common/files/* openwrt/package/base-files/files/
-         fi
-         if [ -n "$(ls -A "user/${{matrix.target}}/files" 2>/dev/null)" ]; then
-         cp -r -f user/${{matrix.target}}/files/* openwrt/package/base-files/files/
-         fi
+        echo "Applying files..."
+        [ -d "user/common/files" ] && cp -rf user/common/files/* openwrt/package/base-files/files/
+        [ -d "user/${{matrix.target}}/files" ] && cp -rf user/${{matrix.target}}/files/* openwrt/package/base-files/files/
         
-         echo "Apply custom.sh"
-         if [ -f "user/common/custom.sh" ]; then
-         (
-           cd openwrt
-           /bin/bash "../user/common/custom.sh"
-         )
-         fi       
-         if [ -f "user/${{matrix.target}}/custom.sh" ]; then
-         (
-           cd openwrt
-           /bin/bash ../user/${{matrix.target}}/custom.sh ${{matrix.target}}
-         )
-         fi
+        echo "Running custom.sh scripts..."
+        if [ -f "user/common/custom.sh" ]; then
+          (cd openwrt && /bin/bash "../user/common/custom.sh")
+        fi
+        if [ -f "user/${{matrix.target}}/custom.sh" ]; then
+          (cd openwrt && /bin/bash "../user/${{matrix.target}}/custom.sh" ${{matrix.target}})
+        fi
 
     - name: cache
       uses: klever1988/cachewrtbuild@main
@@ -141,56 +120,60 @@ jobs:
           ccache: 'true'
           mixkey: 'ramips'
           prefix: ${{ github.workspace }}/openwrt
-          
+
     - name: Download package
       id: package
       run: |
         cd openwrt
-        mv ../user/${{matrix.target}}/config.diff .config
+        cp ../user/${{matrix.target}}/config.diff .config
         make defconfig
-        make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
-        
+        make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \; -exec rm -f {} \;
+
     - name: Check space usage
       if: (!cancelled())
       run: df -hT
-      
+
     - name: Compile the firmware
       id: compile
       run: |
         cd openwrt
-        echo -e "$(($(nproc)+1)) thread compile"
-        make -j$(($(nproc)+1)) || make -j1 V=s
-        echo "status=success" >> $GITHUB_OUTPUT
-        
+        echo "Using $(($(nproc)+1)) threads for compilation"
+        if make -j$(($(nproc)+1)); then
+          echo "status=success" >> $GITHUB_OUTPUT
+        else
+          echo "Compilation failed, retrying with single thread..."
+          make -j1 V=s || { echo "Final compilation failed"; exit 1; }
+          echo "status=success" >> $GITHUB_OUTPUT
+        fi
+
     - name: Check space usage
       if: (!cancelled())
       run: df -hT
-      
+
     - name:  Pack packages_dir
       if: steps.compile.outputs.status == 'success'
       run: |
         cd openwrt/bin/packages/
-        tar -cvf  Openwrt-${{matrix.target}}-packages.tar ./
+        tar -cvf Openwrt-${{matrix.target}}-packages.tar ./
         mv *.tar ..
-        
+
     - name:  Pack targets_dir
       if: steps.compile.outputs.status == 'success'
       run: |
         cd openwrt/bin/targets/
-        tar -cvf  Openwrt-${{matrix.target}}-targets.tar ./
+        tar -cvf Openwrt-${{matrix.target}}-targets.tar ./
         mv *.tar ..
-        
+
     - name: Assemble Firmware
+      if: steps.compile.outputs.status == 'success'
       run: |
-          rm -rf ./Firmware/
-          mkdir -p ./Firmware/
-          #find openwrt/bin/targets/ -name "*bin*" | xargs -i mv -f {} ./Firmware/
-          find openwrt/bin/targets/ -name "*img*" | xargs -i mv -f {} ./Firmware/
-  
+        rm -rf ./Firmware/
+        mkdir -p ./Firmware/
+        find openwrt/bin/targets/ -type f \( -name "*.bin" -o -name "*.img" -o -name "*.gz" \) -exec mv -t ./Firmware/ {} +
+
     - name: Upload Packages to release
-      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
@@ -198,10 +181,9 @@ jobs:
         asset_name: Openwrt-${{matrix.target}}-packages-${{ env.DATE }}.tar
         tag: Openwrt-X64-${{ env.DATE }}
         overwrite: true
-        file_glob: true
 
     - name: Upload Targets to release
-      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
@@ -209,60 +191,64 @@ jobs:
         asset_name: Openwrt-${{matrix.target}}-targets-${{ env.DATE }}.tar
         tag: Openwrt-X64-${{ env.DATE }}
         overwrite: true
-        file_glob: true
 
-        
     - name: Upload Packages to CowTransfer
-      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: |
         curl -fsSL git.io/file-transfer | sh
-         ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin/${{matrix.target}}_packages.tar
-        
-    - name: Upload Targetss to CowTransfer
-      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&　 steps.compile.outputs.status == 'success'
+        ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin/Openwrt-${{matrix.target}}-packages.tar
+
+    - name: Upload Targets to CowTransfer
+      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: |
         curl -fsSL git.io/file-transfer | sh
-         ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin/${{matrix.target}}_targets.tar
-        
+        ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin/Openwrt-${{matrix.target}}-targets.tar
+
     - name: Upload packages directory
-      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()　&& steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-packages-${{matrix.target}}-${{ env.DATE }}
         path: openwrt/bin/packages
-        
+
     - name: Upload targets directory
       if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-targets-${{matrix.target}}-${{ env.DATE }}
         path: openwrt/bin/targets
-        
+
     - name: Upload Firmware
       if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt-firmware-${{matrix.target}}-${{ env.DATE }}
         path: ./Firmware/
+
     - name: 删除旧版本
-      uses: dev-drprasad/delete-older-releases@master
       if: env.DELETE_RELEASE == 'true'
+      uses: dev-drprasad/delete-older-releases@master
       with:
-        keep_latest: 7                               # 要保留的最新版本数 0删除所有版本
-        delete_tag_pattern: ${{ env.FILE_NAME }}     # 指定标签
-        delete_tags: true                            #指定是否删除与旧版本关联的标签
+        keep_latest: 7
+        delete_tag_pattern: Openwrt-X64-*
+        delete_tags: true
       env:
-        GITHUB_TOKEN: ${{ secrets.SUPER_TOKEN }}  # 令牌
+        GITHUB_TOKEN: ${{ secrets.SUPER_TOKEN }}
 
     - name: 删除旧的工作流程运行和工件
-      uses: Mattraks/delete-workflow-runs@main
       if: env.DELETE_ARTIFACTS == 'true'
+      uses: Mattraks/delete-workflow-runs@main
       with:
-        token: ${{ secrets.SUPER_TOKEN }}    # 令牌
-        repository: ${{ github.repository }}    # 运行工作流的存储库的名称。
-        retain_days: 7                         # 工作流的保留天数进行比较的天数       
-        keep_minimum_runs: 0                    # 工作流程保留的最少运行次数              
+        token: ${{ secrets.SUPER_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: 7
+        keep_minimum_runs: 0
 
     - name: WeChat notification
-      if: env.WECHAT_NOTIFICATION == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
-      run: curl https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}-${{ env.DATE }}固件已编译完成
+      if: env.WECHAT_NOTIFICATION == 'true' && !cancelled()
+      run: |
+        if [ "${{ steps.compile.outputs.status }}" = "success" ]; then
+          curl "https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}-${{ env.DATE }}固件编译成功"
+        else
+          curl "https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}-${{ env.DATE }}固件编译失败"
+        fi
