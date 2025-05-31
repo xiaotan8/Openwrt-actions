@@ -103,8 +103,13 @@ jobs:
     - name: Load custom configuration
       run: |        
         echo "Applying files..."
-        [ -d "user/common/files" ] && cp -rf user/common/files/* openwrt/package/base-files/files/
-        [ -d "user/${{matrix.target}}/files" ] && cp -rf user/${{matrix.target}}/files/* openwrt/package/base-files/files/
+        # 修复：使用rsync复制文件并保留目录结构
+        if [ -d "user/common/files" ]; then
+          rsync -a --no-owner --no-group "user/common/files/" "openwrt/package/base-files/files/"
+        fi
+        if [ -d "user/${{matrix.target}}/files" ]; then
+          rsync -a --no-owner --no-group "user/${{matrix.target}}/files/" "openwrt/package/base-files/files/"
+        fi
         
         echo "Running custom.sh scripts..."
         if [ -f "user/common/custom.sh" ]; then
