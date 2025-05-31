@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [lienol-x64, lean-x64]
+        target: [lienol-x64,lean-x64]
 
     steps:
     - name: Checkout
