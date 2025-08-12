@@ -1,6 +1,6 @@
 # Action-Openwrt
 
-默认管理IP地址： 10.10.10.100
+默认管理IP地址： 10.10.10.10
 
 Lean-X64默认密码 password
 
