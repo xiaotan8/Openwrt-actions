@@ -17,6 +17,6 @@ rm -rf feeds/luci/applications/luci-app-smartdns
 git clone https://github.com/pymumu/luci-app-smartdns.git              package/applications/luci-app-smartdns
 git clone https://github.com/tty228/luci-app-wechatpush.git     package/applications/luci-app-wechatpush
 #git clone https://github.com/rufengsuixing/luci-app-adguardhome.git         package/applications/luci-app-adguardhome
-#git clone https://github.com/destan19/OpenAppFilter.git                     package/OpenAppFilter
-git clone https://github.com/KFERMercer/luci-app-tcpdump.git                 package/luci-app-tcpdump
-git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git -b main        package/OpenWrt-nikki
+#git clone https://github.com/destan19/OpenAppFilter.git                     package/applications/OpenAppFilter
+git clone https://github.com/KFERMercer/luci-app-tcpdump.git                 package/applications/luci-app-tcpdump
+git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git                package/applications/OpenWrt-nikki
