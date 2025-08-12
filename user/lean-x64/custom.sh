@@ -19,4 +19,4 @@ git clone https://github.com/tty228/luci-app-wechatpush.git     package/applicat
 #git clone https://github.com/rufengsuixing/luci-app-adguardhome.git         package/applications/luci-app-adguardhome
 #git clone https://github.com/destan19/OpenAppFilter.git                     package/OpenAppFilter
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git                 package/luci-app-tcpdump
-git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git                package/OpenWrt-nikki
+git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git -b main        package/OpenWrt-nikki
