@@ -7,7 +7,6 @@ rm -rf feeds/luci/applications/luci-app-passwall
 rm -rf feeds/luci/applications/luci-app-passwall2
 rm -rf feeds/luci/applications/luci-app-nikki
 rm -rf feeds/luci/applications/luci-app-OpenClash
-rm -rf feeds/luci/applications/luci-app-turboacc
 git clone https://github.com/xiaorouji/openwrt-passwall package/passwall-luci
 git clone https://github.com/vernesong/OpenClash -b master package/openclash
 rm -rf feeds/luci/themes/luci-theme-argon
