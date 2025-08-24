@@ -386,3 +386,6 @@ CONFIG_PACKAGE_firewall4=y
 ## CONFIG_KERNEL_MMC_TOSHIBA_PCI=y
 ## CONFIG_KERNEL_MMC_MTK=y
 ## CONFIG_KERNEL_MMC_SDHCI_XENON=y
+CONFIG_PACKAGE_libustream-mbedtls=y
+# CONFIG_PACKAGE_libustream-openssl is not set
+# CONFIG_PACKAGE_libustream-wolfssl is not set
