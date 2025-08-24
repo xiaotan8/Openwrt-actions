@@ -10,7 +10,7 @@ rm -rf feeds/luci/applications/luci-app-OpenClash
 rm -rf feeds/luci/applications/luci-app-smartdns
 rm -rf feeds/luci/applications/luci-app-wechatpush
 git clone https://github.com/xiaorouji/openwrt-passwall package/passwall-luci
-git clone https://github.com/vernesong/OpenClash -b master package/openclash
+git clone --depth=1 https://github.com/vernesong/OpenClash.git -b master package/openclash
 rm -rf feeds/luci/themes/luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon.git feeds/luci/themes/luci-theme-argon
 rm -rf feeds/packages/net/smartdns
