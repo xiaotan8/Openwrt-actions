@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Test custom.sh"
+rm -rf feeds/packages/net/openvswitch
 rm -rf feeds/luci/themes/luci-theme-argon
 git clone https://github.com/jerrykuku/luci-theme-argon.git       feeds/luci/themes/luci-theme-argon
 git clone https://github.com/tty228/luci-app-wechatpush.git       package/luci-app-wechatpush
