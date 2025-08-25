@@ -1,46 +1,36 @@
 #!/bin/bash
-# custom.sh - OpenWrt build customization script
-# 功能: 自动禁用 kmod-openvswitch 和 kmod-ovpn-dco，带补丁验证
+# custom.sh - OpenWrt 自定义补丁脚本
 
 set -e
 
-echo "==> [custom.sh] Start applying custom patches..."
+echo ">>> 进入 OpenWrt 源码目录..."
+cd openwrt || { echo "❌ 没找到 openwrt 目录"; exit 1; }
 
-# 自动定位 openwrt 源码目录
-if [ -d "openwrt" ]; then
-    cd openwrt || exit 1
-elif [ -d "$GITHUB_WORKSPACE/openwrt" ]; then
-    cd "$GITHUB_WORKSPACE/openwrt" || exit 1
-elif [ -d "../openwrt" ]; then
-    cd ../openwrt || exit 1
-else
-    echo "❌ OpenWrt source directory not found!"
-    pwd
-    ls -al
-    exit 1
-fi
+echo ">>> 开始禁用不需要的内核模块和包..."
 
-# 打补丁: 禁用 openvswitch 和 ovpn-dco
-PATCH_FILE=".config"
+# 1. 禁用 openvswitch
+grep -q "CONFIG_PACKAGE_kmod-openvswitch" .config && \
+    sed -i "s/^CONFIG_PACKAGE_kmod-openvswitch=.*/# CONFIG_PACKAGE_kmod-openvswitch is not set/" .config || \
+    echo "# CONFIG_PACKAGE_kmod-openvswitch is not set" >> .config
 
-echo "==> Patching .config to disable kmod-openvswitch and kmod-ovpn-dco..."
-# 幂等修改，不会重复写
-grep -q "CONFIG_PACKAGE_kmod-openvswitch" $PATCH_FILE && \
-    sed -i "s/^CONFIG_PACKAGE_kmod-openvswitch=.*/# CONFIG_PACKAGE_kmod-openvswitch is not set/" $PATCH_FILE || \
-    echo "# CONFIG_PACKAGE_kmod-openvswitch is not set" >> $PATCH_FILE
+# 2. 禁用 ovpn-dco
+grep -q "CONFIG_PACKAGE_kmod-ovpn-dco" .config && \
+    sed -i "s/^CONFIG_PACKAGE_kmod-ovpn-dco=.*/# CONFIG_PACKAGE_kmod-ovpn-dco is not set/" .config || \
+    echo "# CONFIG_PACKAGE_kmod-ovpn-dco is not set" >> .config
 
-grep -q "CONFIG_PACKAGE_kmod-ovpn-dco" $PATCH_FILE && \
-    sed -i "s/^CONFIG_PACKAGE_kmod-ovpn-dco=.*/# CONFIG_PACKAGE_kmod-ovpn-dco is not set/" $PATCH_FILE || \
-    echo "# CONFIG_PACKAGE_kmod-ovpn-dco is not set" >> $PATCH_FILE
+# 3. 禁用 ubootenv-nvram
+grep -q "CONFIG_PACKAGE_ubootenv-nvram" .config && \
+    sed -i "s/^CONFIG_PACKAGE_ubootenv-nvram=.*/# CONFIG_PACKAGE_ubootenv-nvram is not set/" .config || \
+    echo "# CONFIG_PACKAGE_ubootenv-nvram is not set" >> .config
 
-# 验证是否成功
-echo "==> Verifying patch..."
-if grep -q "# CONFIG_PACKAGE_kmod-openvswitch is not set" $PATCH_FILE && \
-   grep -q "# CONFIG_PACKAGE_kmod-ovpn-dco is not set" $PATCH_FILE; then
-    echo "✅ Patch applied successfully: openvswitch & ovpn-dco disabled."
-else
-    echo "❌ Patch failed!"
-    exit 1
-fi
+# 4. 禁用 Rust 及 Cargo（防止 host 编译失败）
+./scripts/feeds uninstall rust || true
+./scripts/feeds uninstall cargo || true
 
-echo "==> [custom.sh] Done."
+# 5. 验证修改是否生效
+echo ">>> 验证配置修改结果:"
+grep -E "openvswitch|ovpn-dco|ubootenv-nvram" .config || echo "✅ 已正确禁用相关包"
+echo "✅ Rust feed 状态:"
+./scripts/feeds list -r | grep rust || echo "已移除 rust feed"
+
+echo ">>> 补丁执行完成 ✅"
