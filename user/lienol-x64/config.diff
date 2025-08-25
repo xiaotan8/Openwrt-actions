@@ -253,11 +253,4 @@ CONFIG_PACKAGE_wpad=n
 CONFIG_PACKAGE_wpad-openssl=y
 CONFIG_PACKAGE_open-vm-tools=y
 
-# Open vSwitch
-#
-# CONFIG_PACKAGE_openvswitch is not set
-# CONFIG_PACKAGE_openvswitch-ovn-host is not set
-# CONFIG_PACKAGE_openvswitch-ovn-north is not set
-# CONFIG_PACKAGE_openvswitch-python3 is not set
-# CONFIG_PACKAGE_ovsd is not set
-# end of Open vSwitch
+# CONFIG_PACKAGE_kmod-openvswitch is not set
