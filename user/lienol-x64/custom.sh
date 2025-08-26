@@ -1,36 +1,51 @@
 #!/bin/bash
-# custom.sh - OpenWrt 自定义补丁脚本
+# custom.sh - OpenWrt build customization script
+# 功能: 自动禁用 kmod-openvswitch 和 kmod-ovpn-dco
 
 set -e
 
-echo ">>> 进入 OpenWrt 源码目录..."
-cd openwrt || { echo "❌ 没找到 openwrt 目录"; exit 1; }
+echo "==> [custom.sh] Start applying custom patches..."
 
-echo ">>> 开始禁用不需要的内核模块和包..."
+# 自动查找 .config
+CONFIG_FILE=""
+for path in \
+    "./openwrt/.config" \
+    "./.config" \
+    "$GITHUB_WORKSPACE/openwrt/.config" \
+    "$GITHUB_WORKSPACE/.config" \
+    "../openwrt/.config" \
+    "../../openwrt/.config"
+do
+    if [ -f "$path" ]; then
+        CONFIG_FILE="$path"
+        break
+    fi
+done
 
-# 1. 禁用 openvswitch
-grep -q "CONFIG_PACKAGE_kmod-openvswitch" .config && \
-    sed -i "s/^CONFIG_PACKAGE_kmod-openvswitch=.*/# CONFIG_PACKAGE_kmod-openvswitch is not set/" .config || \
-    echo "# CONFIG_PACKAGE_kmod-openvswitch is not set" >> .config
+if [ -z "$CONFIG_FILE" ]; then
+    echo "❌ 没找到 .config 文件，请确认 custom.sh 的执行路径！"
+    pwd
+    ls -al
+    exit 1
+fi
 
-# 2. 禁用 ovpn-dco
-grep -q "CONFIG_PACKAGE_kmod-ovpn-dco" .config && \
-    sed -i "s/^CONFIG_PACKAGE_kmod-ovpn-dco=.*/# CONFIG_PACKAGE_kmod-ovpn-dco is not set/" .config || \
-    echo "# CONFIG_PACKAGE_kmod-ovpn-dco is not set" >> .config
+echo "==> Using config: $CONFIG_FILE"
 
-# 3. 禁用 ubootenv-nvram
-grep -q "CONFIG_PACKAGE_ubootenv-nvram" .config && \
-    sed -i "s/^CONFIG_PACKAGE_ubootenv-nvram=.*/# CONFIG_PACKAGE_ubootenv-nvram is not set/" .config || \
-    echo "# CONFIG_PACKAGE_ubootenv-nvram is not set" >> .config
+# 打补丁: 禁用 openvswitch 和 ovpn-dco
+sed -i "/CONFIG_PACKAGE_kmod-openvswitch/d" "$CONFIG_FILE"
+sed -i "/CONFIG_PACKAGE_kmod-ovpn-dco/d" "$CONFIG_FILE"
 
-# 4. 禁用 Rust 及 Cargo（防止 host 编译失败）
-./scripts/feeds uninstall rust || true
-./scripts/feeds uninstall cargo || true
+echo "# CONFIG_PACKAGE_kmod-openvswitch is not set" >> "$CONFIG_FILE"
+echo "# CONFIG_PACKAGE_kmod-ovpn-dco is not set" >> "$CONFIG_FILE"
 
-# 5. 验证修改是否生效
-echo ">>> 验证配置修改结果:"
-grep -E "openvswitch|ovpn-dco|ubootenv-nvram" .config || echo "✅ 已正确禁用相关包"
-echo "✅ Rust feed 状态:"
-./scripts/feeds list -r | grep rust || echo "已移除 rust feed"
+# 验证
+echo "==> Verifying patch..."
+if grep -q "# CONFIG_PACKAGE_kmod-openvswitch is not set" "$CONFIG_FILE" && \
+   grep -q "# CONFIG_PACKAGE_kmod-ovpn-dco is not set" "$CONFIG_FILE"; then
+    echo "✅ Patch applied successfully."
+else
+    echo "❌ Patch failed!"
+    exit 1
+fi
 
-echo ">>> 补丁执行完成 ✅"
+echo "==> [custom.sh] Done."
