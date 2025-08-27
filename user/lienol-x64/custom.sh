@@ -1,27 +1,41 @@
 #!/bin/bash
 set -e
 
-echo "==> [custom.sh] Start applying custom patches..."
+echo "==> 检查并回退内核到 6.6 LTS"
 
-if [ ! -d "./target/linux/x86" ]; then
-    echo "❌ 没找到 target/linux/x86 目录！"
-    exit 1
+# 直接在 openwrt 根目录运行，不再 cd
+TARGET_MK="target/linux/x86/Makefile"
+
+if [ ! -f "$TARGET_MK" ]; then
+  echo "❌ 没找到 $TARGET_MK，确认架构是否为 x86？"
+  exit 1
 fi
 
-# 1. 在内核配置中启用 psample 模块
-CONFIG_FILE="target/linux/x86/config-6.12"
+# 获取当前内核版本
+CURRENT_VER=$(grep -E "KERNEL_PATCHVER:=" $TARGET_MK | cut -d= -f2)
+echo "当前内核版本: $CURRENT_VER"
 
-if ! grep -q "^CONFIG_PSAMPLE" "$CONFIG_FILE"; then
-    echo "==> 启用 CONFIG_PSAMPLE=m"
-    echo "CONFIG_PSAMPLE=m" >> "$CONFIG_FILE"
+# 如果不是 6.6 就回退
+if [ "$CURRENT_VER" != "6.6" ]; then
+  echo "==> 内核版本不是 6.6，自动回退..."
+  sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=6.6/' $TARGET_MK
+  sed -i 's/KERNEL_TESTING_PATCHVER:=.*/KERNEL_TESTING_PATCHVER:=6.6/' $TARGET_MK || true
 else
-    echo "==> CONFIG_PSAMPLE 已存在，跳过添加"
+  echo "✅ 内核已是 6.6，无需修改"
 fi
 
-# 2. 验证是否写入成功
-if grep -q "^CONFIG_PSAMPLE=m" "$CONFIG_FILE"; then
-    echo "✅ CONFIG_PSAMPLE=m 已写入 $CONFIG_FILE"
-else
-    echo "❌ 未能写入 CONFIG_PSAMPLE"
-    exit 1
-fi
+# 确保需要的内核模块
+cat >> .config <<EOF
+CONFIG_PACKAGE_kmod-psample=y
+CONFIG_PACKAGE_kmod-openvswitch=y
+CONFIG_PACKAGE_kmod-ovpn-dco=y
+EOF
+
+# 验证
+echo "==> 验证修改结果"
+grep KERNEL_PATCHVER $TARGET_MK
+grep "kmod-openvswitch" .config || echo "⚠️ openvswitch 未写入 .config"
+grep "kmod-psample" .config || echo "⚠️ psample 未写入 .config"
+grep "kmod-ovpn-dco" .config || echo "⚠️ ovpn-dco 未写入 .config"
+
+echo "==> 内核版本检测 & 回退逻辑执行完成 ✅"
