@@ -1,0 +1,6 @@
+--- a/feeds/packages/net/openvswitch/Makefile
++++ b/feeds/packages/net/openvswitch/Makefile
+@@ ovs_kmod_openvswitch_depends:=\
+-	  +kmod-ipt-conntrack-extra \
++	  +kmod-ipt-conntrack-extra \
++	  +kmod-psample \
