@@ -1,0 +1,14 @@
+--- a/package/kernel/linux/modules/netsupport.mk
++++ b/package/kernel/linux/modules/netsupport.mk
+@@
+ 
++define KernelPackage/psample
++  SUBMENU:=$(NETWORK_SUPPORT_MENU)
++  TITLE:=psample netlink channel
++  KCONFIG:= \
++    CONFIG_PSAMPLE
++  FILES:=$(LINUX_DIR)/net/psample/psample.ko
++  AUTOLOAD:=$(call AutoLoad,30,psample)
++endef
++
++$(eval $(call KernelPackage,psample))
