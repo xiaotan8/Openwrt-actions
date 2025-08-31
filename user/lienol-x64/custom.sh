@@ -1,33 +1,70 @@
 #!/bin/bash
+set -e
 
-echo "Test custom.sh"
+echo "=============================="
+echo ">>> Running custom.sh ..."
+echo "=============================="
 
-SMARTDNS_MAKEFILE="feeds/packages/net/smartdns/Makefile"
+# 1. 删除冲突或旧包
+# ==============================
 
-if [ -f "$SMARTDNS_MAKEFILE" ]; then
-  echo ">>> 检测到 smartdns Makefile，开始修复 PKG_HASH"
+# ==============================
+# 3. 修复 boost-system 已删除的问题
+# ==============================
+fix_boost_dependency() {
+    echo "[Step] 修复 boost-system 依赖问题"
 
-  # 解析版本号
-  PKG_VERSION=$(grep "^PKG_VERSION:=" "$SMARTDNS_MAKEFILE" | cut -d= -f2)
-  PKG_SOURCE="smartdns-$PKG_VERSION.tar.zst"
-  TMP_DL="smartdns.tar.zst"
+    TARGET_MAKEFILES=(
+        "package/feeds/packages/domoticz/Makefile"
+        "package/feeds/packages/i2pd/Makefile"
+        "package/feeds/packages/kea/Makefile"
+        "package/feeds/packages/libtorrent-rasterbar/Makefile"
+    )
 
-  # 下载源码包
-  echo ">>> 下载 smartdns v$PKG_VERSION ..."
-  curl -L -o "$TMP_DL" "https://github.com/pymumu/smartdns/archive/refs/tags/Release-$PKG_VERSION.tar.gz" 2>/dev/null || true
+    for mk in "${TARGET_MAKEFILES[@]}"; do
+        if [ -f "$mk" ]; then
+            echo "  -> 修复 $mk"
+            sed -i 's/\+boost-system/+boost/g' "$mk"
+        fi
+    done
+}
+fix_boost_dependency
 
-  if [ -f "$TMP_DL" ]; then
-    # 计算 sha256
-    NEW_HASH=$(sha256sum "$TMP_DL" | awk '{print $1}')
-    echo ">>> 新 HASH: $NEW_HASH"
+# ==============================
+# 4. 修复 shadowsocksr-libev 编译问题
+# ==============================
+fix_ssr_build() {
+    echo "[Step] 修复 shadowsocksr-libev 编译问题"
 
-    # 修改 Makefile
-    sed -i "s/PKG_HASH:=.*/PKG_HASH:=$NEW_HASH/" "$SMARTDNS_MAKEFILE"
-    echo ">>> smartdns PKG_HASH 已更新完成"
-    rm -f "$TMP_DL"
-  else
-    echo "!!! smartdns 源码下载失败，跳过修复"
-  fi
-else
-  echo "!!! 未找到 smartdns Makefile，跳过"
-fi
+    SSR_DIR="package/passwall-packages/shadowsocksr-libev"
+    if [ -d "$SSR_DIR" ]; then
+        echo "  -> 替换为 Lede 版本"
+        rm -rf "$SSR_DIR"
+        git clone --depth=1 https://github.com/coolsnowwolf/lede.git tmp_lede
+        if [ -d tmp_lede/package/lean/shadowsocksr-libev ]; then
+            mv tmp_lede/package/lean/shadowsocksr-libev package/passwall-packages/
+            echo "  -> 已成功替换为 Lede 版本 ✅"
+        else
+            echo "  -> Lede 包未找到，使用 -Wno-error 修复"
+            local SSR_MK="$SSR_DIR/Makefile"
+            if [ -f "$SSR_MK" ]; then
+                sed -i '/Build\/Configure/a\ \tCFLAGS+=" -Wno-error"' "$SSR_MK"
+                echo "  -> 已添加 -Wno-error ✅"
+            fi
+        fi
+        rm -rf tmp_lede
+    else
+        echo "  -> 未找到 shadowsocksr-libev，跳过"
+    fi
+}
+fix_ssr_build
+
+# ==============================
+# 5. 更新 feeds
+# ==============================
+./scripts/feeds update -a
+./scripts/feeds install -a
+
+echo "=============================="
+echo ">>> custom.sh done ✅"
+echo "=============================="
