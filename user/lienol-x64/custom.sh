@@ -4,7 +4,7 @@ set -e
 echo "=============================="
 echo ">>> Running custom.sh ..."
 echo "=============================="
-
+rm -rf package/feeds/packages/openvswitch
 # 1. 删除冲突或旧包
 # ==============================
 
