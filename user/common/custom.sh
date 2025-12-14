@@ -17,4 +17,4 @@ git clone https://github.com/tty228/luci-app-wechatpush.git                  pac
 git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git                package/applications/OpenWrt-nikki
 git clone https://github.com/jerrykuku/luci-app-argon-config.git             package/applications/luci-app-argon-config
 git clone https://github.com/nikkinikki-org/OpenWrt-momo.git                package/applications/OpenWrt-momo
-git clone --depth=1 https://github.com/xiaotan8/luci-app-accesscontrol.git package/applications/luci-app-accesscontrol
+#git clone --depth=1 https://github.com/xiaotan8/luci-app-accesscontrol.git package/applications/luci-app-accesscontrol
