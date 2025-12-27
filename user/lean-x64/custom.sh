@@ -67,32 +67,6 @@ cat > "$SSTP_PATCH_DIR/100-pppd-headers-compat.patch" << 'EOF'
  #include "sstp-error.h"
 EOF
 
-# 如需兼容新旧 pppd 的 __has_include 版本，把上面的 cat 块删掉，
-# 换成下面这个注释里的内容即可：
-#: <<'ALT_EOF'
-#cat > "$SSTP_PATCH_DIR/100-pppd-headers-compat.patch" << 'EOF'
-#--- a/src/pppd-plugin/sstp-plugin.c
-#+++ b/src/pppd-plugin/sstp-plugin.c
-#@@ -36,7 +36,15 @@
-# #include <pppd/pppd.h>
-# #include <pppd/fsm.h>
-# #include <pppd/lcp.h>
-#-#include <pppd/chap-new.h>
-#+
-+#/* Newer pppd versions removed chap-new.h and only provide chap.h.
-+# * Try to include chap-new.h if present, otherwise fall back to chap.h.
-+# */
-+#if __has_include(<pppd/chap-new.h>)
-+#include <pppd/chap-new.h>
-+#else
-+#include <pppd/chap.h>
-+#endif
-# 
-# #include "sstp-api.h"
-# #include "sstp-error.h"
-#EOF
-#ALT_EOF
-
 echo "===> sstp-client patch added: $SSTP_PATCH_DIR/100-pppd-headers-compat.patch"
 
 ###############################################################################
