@@ -46,16 +46,12 @@ jobs:
 
         
     - name: Maximize build space
-      uses: easimon/maximize-build-space@v10
+      uses: easimon/maximize-build-space@master
       with:
-        use-mnt: true              # ⭐ 只使用 /mnt 80GB
-        root-reserve-mb: 32768     # 给 / 留 32GB
-        temp-reserve-mb: 1024
-        swap-size-mb: 8192
-        remove-dotnet: true
-        remove-android: true
-        remove-haskell: true
-        remove-codeql: true
+          root-reserve-mb: 4096
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
     - name: Checkout
       uses: actions/checkout@v4
 
@@ -69,7 +65,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi `docker images -q`
+        docker rmi `docker images -q` || true
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap*
