@@ -46,16 +46,7 @@ jobs:
 
         
     - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 10240     # 给 / 留 32GB（必须）
-        temp-reserve-mb: 1024
-        swap-size-mb: 8192         # OpenWrt 编译建议 8GB swap
-        overprovision-lvm: false
-        remove-dotnet: true
-        remove-android: true
-        remove-haskell: true
-        remove-codeql: true
+      uses: P3TERX/maximize-build-space@master
     - name: Checkout
       uses: actions/checkout@v4
 
