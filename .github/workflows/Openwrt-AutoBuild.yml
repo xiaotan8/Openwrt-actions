@@ -35,7 +35,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       
     - name: Set Date
       run: |
@@ -53,7 +53,7 @@ jobs:
           remove-dotnet: 'true'
           remove-android: 'true'
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Build
       run: |
